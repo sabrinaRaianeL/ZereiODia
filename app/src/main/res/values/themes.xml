@@ -1,8 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.ZereiODia" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/pink_primary</item>
+        <item name="colorOnPrimary">@color/pink_on_primary</item>
+        <item name="colorPrimaryContainer">@color/pink_container</item>
+        <item name="colorOnPrimaryContainer">@color/pink_on_container</item>
     </style>
 
     <style name="Theme.ZereiODia" parent="Base.Theme.ZereiODia" />

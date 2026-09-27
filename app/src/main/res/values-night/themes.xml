@@ -1,7 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.ZereiODia" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/pink_primary_dark</item>
+        <item name="colorOnPrimary">@color/pink_on_primary_dark</item>
+        <item name="colorPrimaryContainer">@color/pink_container_dark</item>
+        <item name="colorOnPrimaryContainer">@color/pink_on_container_dark</item>
     </style>
 </resources>

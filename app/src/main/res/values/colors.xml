@@ -2,4 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Personalização de cores do modo claro (Light) -->
+    <color name="pink_primary">#F06292</color>
+    <color name="pink_on_primary">#FFFFFF</color>
+    <color name="pink_container">#FCE4EC</color>
+    <color name="pink_on_container">#880E4F</color>
+
+    <!-- Personalização de cores do  modo escuro (Dark) -->
+    <color name="pink_primary_dark">#FFB2C9</color>
+    <color name="pink_on_primary_dark">#561D2A</color>
+    <color name="pink_container_dark">#702B3E</color>
+    <color name="pink_on_container_dark">#FFD9E2</color>
 </resources>

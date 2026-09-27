@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Zerei O Dia</string>
+    <string name="hint_new_task">Nova tarefa</string>
+    <string name="btn_add">Adicionar</string>
+    <string name="cd_delete_task">Excluir tarefa</string>
 </resources>

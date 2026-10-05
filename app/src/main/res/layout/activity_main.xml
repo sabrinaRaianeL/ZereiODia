@@ -7,11 +7,16 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    <!-- Nova tarefa com ícone de calendário no canto direito -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilTaskInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/hint_new_task"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_calendar"
+        app:endIconContentDescription="@string/btn_select_date"
+        app:endIconTint="?attr/colorPrimary"
         app:layout_constraintEnd_toStartOf="@+id/btnAddTask"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -23,6 +28,7 @@
             android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <!-- Botão Adicionar -->
     <Button
         android:id="@+id/btnAddTask"
         android:layout_width="wrap_content"
@@ -34,6 +40,7 @@
         app:layout_constraintStart_toEndOf="@+id/tilTaskInput"
         app:layout_constraintTop_toTopOf="@+id/tilTaskInput" />
 
+    <!-- Lista de Tarefas -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTasks"
         android:layout_width="0dp"

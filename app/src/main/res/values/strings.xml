@@ -3,4 +3,13 @@
     <string name="hint_new_task">Nova tarefa</string>
     <string name="btn_add">Adicionar</string>
     <string name="cd_delete_task">Excluir tarefa</string>
+
+    <string name="dialog_delete_title">Excluir tarefa</string>
+    <string name="dialog_delete_message">Tem certeza que deseja excluir a tarefa \"%1$s\"?</string>
+    <string name="dialog_confirm">Excluir</string>
+    <string name="dialog_cancel">Cancelar</string>
+
+    <string name="btn_select_date">Data limite</string>
+    <string name="date_picker_title">Selecione a data limite para realização da tarefa</string>
+    <string name="task_due_date">Data limite: %1$s</string>
 </resources>

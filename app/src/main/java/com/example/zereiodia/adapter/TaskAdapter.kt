@@ -2,10 +2,12 @@ package com.example.zereiodia.adapter
 
 import android.graphics.Paint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.zereiodia.R
 import com.example.zereiodia.databinding.ItemTaskBinding
 import com.example.zereiodia.model.Task
 
@@ -37,6 +39,14 @@ class TaskAdapter(
                 binding.cbTaskDone.paintFlags = binding.cbTaskDone.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             } else {
                 binding.cbTaskDone.paintFlags = binding.cbTaskDone.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+            }
+
+            // Exibe/oculta data limite das tasks
+            if (!task.dueDate.isNullOrBlank()) {
+                binding.tvTaskDueDate.text = binding.root.context.getString(R.string.task_due_date, task.dueDate)
+                binding.tvTaskDueDate.visibility = View.VISIBLE
+            } else {
+                binding.tvTaskDueDate.visibility = View.GONE
             }
 
             // setOnClickListener no lugar de onCheckedChange para disparar apenas com ação do usuário

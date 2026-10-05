@@ -11,12 +11,15 @@ class TodoViewModel : ViewModel() {
 
     val tasks: LiveData<List<Task>> = _tasks
 
-    fun addTask(title: String) {
+    fun addTask(title: String, dueDate: String? = null) {
         if (title.isBlank()) return
 
         val currentList = _tasks.value.orEmpty()
         val nextId = (currentList.maxOfOrNull {it.id} ?: 0L) + 1L
-        val newTask = Task (id = nextId, title = title.trim())
+        val newTask = Task (
+            id = nextId,
+            title = title.trim(),
+            dueDate = dueDate )
 
         _tasks.value = currentList + newTask
     }

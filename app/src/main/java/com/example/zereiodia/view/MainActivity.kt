@@ -6,14 +6,21 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.zereiodia.R
 import com.example.zereiodia.adapter.TaskAdapter
+import com.example.zereiodia.data.AppDatabase
+import com.example.zereiodia.data.TaskRepository
 import com.example.zereiodia.databinding.ActivityMainBinding
 import com.example.zereiodia.model.Task
 import com.example.zereiodia.viewmodel.TodoViewModel
+import com.example.zereiodia.viewmodel.TodoViewModelFactory
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -22,9 +29,14 @@ import java.util.TimeZone
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: TodoViewModel by viewModels()
     private lateinit var adapter: TaskAdapter
     private var selectedDueDate: String? = null
+
+    private val viewModel: TodoViewModel by viewModels {
+        val database = AppDatabase.getDatabase(applicationContext)
+        val repository = TaskRepository(database.taskDao())
+        TodoViewModelFactory(repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -43,9 +55,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
 
-        // Inicializa o adapter passando as ações que ele deve repassar para o ViewModel
+        // Inicializa o adapter passando a task que ele deve repassar para o ViewModel
         adapter = TaskAdapter (
-            onTaskChecked = {task -> viewModel.toggleTask(task.id)},
+            onTaskChecked = {task -> viewModel.toggleTask(task)},
             onTaskDeleted = {task -> showDeleteConfirmationDialog(task)}
         )
 
@@ -75,7 +87,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        viewModel.tasks.observe(this) {tasks -> adapter.submitList(tasks)}
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.tasks.collect { tasks ->
+                    adapter.submitList(tasks)
+                }
+            }
+        }
     }
 
     private fun setupEdgeToEdge() {
@@ -102,7 +120,7 @@ class MainActivity : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.dialog_delete_title)
             .setMessage(getString(R.string.dialog_delete_message, task.title))
-            .setPositiveButton(R.string.dialog_confirm) {_, _ -> viewModel.deleteTask(task.id)} // só exclui se o usuário confimar
+            .setPositiveButton(R.string.dialog_confirm) {_, _ -> viewModel.deleteTask(task)} // só exclui se o usuário confimar
             .setNegativeButton(R.string.dialog_cancel, null) // fecha o diálogo se o usuário cancelar
             .show()
     }
@@ -113,8 +131,9 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         datePicker.addOnPositiveButtonClickListener { selection ->
-            val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-            formatter.timeZone = TimeZone.getTimeZone("UTC")
+            val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).apply {
+                timeZone = TimeZone.getTimeZone("UTC")
+            }
 
             selectedDueDate = formatter.format(Date(selection))
         }

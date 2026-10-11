@@ -24,7 +24,7 @@ O principal objetivo do **Zerei O Dia** é ajudar os usuários a organizarem seu
 ## 🛠️ Tecnologias Utilizadas
 
 - **Linguagem**: [Kotlin](https://kotlinlang.org/)
-- **Arquitetura**: MVVM (*Model-View-ViewModel*) + Repository Pattern
+- **Arquitetura**: MVVM (*Model-View-ViewModel*) com *Repository Pattern* integrado à camada de dados (`data/`)
 - **Interface de Usuário (UI)**:
   - XML Layouts & View Binding
   - Material Design 3 (`com.google.android.material`)
@@ -98,7 +98,3 @@ Para compilar e executar o projeto, você precisará de:
 4. **Executar o Aplicativo**:
    - Conecte um dispositivo Android via USB com a *Depuração USB* ativada, ou inicie um Emulador (*Android Virtual Device*).
    - Clique no botão verde **Run 'app'** (ou pressione `Shift + F10`).
-
----
-
-## 

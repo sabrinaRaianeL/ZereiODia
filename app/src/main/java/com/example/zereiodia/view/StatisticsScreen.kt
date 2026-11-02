@@ -1,0 +1,129 @@
+package com.example.zereiodia.view
+
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.zereiodia.viewmodel.StatisticsUiState
+
+@Composable
+fun StatisticsScreen(uiState: StatisticsUiState) {
+
+    val isDark = isSystemInDarkTheme()
+    val primaryColor = if (isDark) Color(0xFFFFB2C9) else Color(0xFFF06292)
+    val primaryContainerColor = if (isDark) Color(0xFF702B3E) else Color(0xFFFCE4EC)
+    val onPrimaryContainerColor = if (isDark) Color(0xFFFFD9E2) else Color(0xFF880E4F)
+
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(
+                text = "Dashboard de Produtividade",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = primaryColor
+            )
+
+            // Card para exibir Taxa de Conclusão
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = primaryContainerColor
+                )
+            ) {
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "Taxa de Conclusão",
+                        fontSize = 16.sp,
+                        color = onPrimaryContainerColor
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "${String.format("%.1f", uiState.completionPercentage)}%",
+                        fontSize = 40.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = onPrimaryContainerColor
+                    )
+                }
+            }
+
+            // Cards de contagem de tasks (Total, Concluídas, Pendentes)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                StatCard(
+                    title = "Total",
+                    value = uiState.totalTasks.toString(),
+                    containerColor = primaryContainerColor,
+                    contentColor = onPrimaryContainerColor,
+                    modifier = Modifier.weight(1f)
+                )
+                StatCard(
+                    title = "Concluídas",
+                    value = uiState.completedTasks.toString(),
+                    containerColor = primaryContainerColor,
+                    contentColor = onPrimaryContainerColor,
+                    modifier = Modifier.weight(1f)
+                )
+                StatCard(
+                    title = "Pendentes",
+                    value = uiState.pendingTasks.toString(),
+                    containerColor = primaryContainerColor,
+                    contentColor = onPrimaryContainerColor,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun StatCard(
+    title: String,
+    value: String,
+    containerColor: Color,
+    contentColor: Color,
+    modifier: Modifier = Modifier
+) {
+
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = title, fontSize = 14.sp)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = value,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}

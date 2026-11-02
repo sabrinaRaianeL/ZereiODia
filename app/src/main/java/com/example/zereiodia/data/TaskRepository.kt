@@ -7,6 +7,10 @@ class TaskRepository(private val taskDao: TaskDao) {
 
     val allTasks: Flow<List<Task>> = taskDao.getAllTasks()
 
+    val totalTasks: Flow<Int> = taskDao.getTotalTasksCount()
+    val completedTasks: Flow<Int> = taskDao.getCompletedTasksCount()
+    val pendingTasks: Flow<Int> = taskDao.getPendingTasksCount()
+
     suspend fun insert(task: Task) {
         taskDao.insertTask(task)
     }

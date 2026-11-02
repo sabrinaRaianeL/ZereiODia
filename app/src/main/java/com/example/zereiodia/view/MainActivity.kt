@@ -84,6 +84,11 @@ class MainActivity : AppCompatActivity() {
                 selectedDueDate = null
             }
         }
+
+        // Ação de clique do botão flutuante para abrir as estatísticas
+        binding.btnOpenStatistics.setOnClickListener {
+            openStatisticsFragment()
+        }
     }
 
     private fun observeViewModel() {
@@ -139,5 +144,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         datePicker.show(supportFragmentManager, "DATE_PICKER")
+    }
+
+    private fun openStatisticsFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(android.R.id.content, StatisticsFragment())
+            .addToBackStack(null) // permite que o botão "Voltar" retorne para a lista de tarefas
+            .commit()
     }
 }

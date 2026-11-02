@@ -23,4 +23,15 @@ interface TaskDao {
 
     @Delete
     suspend fun deleteTask(task: Task)
+
+    // Queries para a tela do dashboard
+
+    @Query("SELECT COUNT(*) FROM tasks")
+    fun getTotalTasksCount(): Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM tasks WHERE isDone = 1")
+    fun getCompletedTasksCount(): Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM tasks WHERE isDone = 0")
+    fun getPendingTasksCount(): Flow<Int>
 }

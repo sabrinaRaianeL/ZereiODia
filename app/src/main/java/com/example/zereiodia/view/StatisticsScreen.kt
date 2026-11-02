@@ -16,6 +16,8 @@ import com.example.zereiodia.viewmodel.StatisticsUiState
 fun StatisticsScreen(uiState: StatisticsUiState) {
 
     val isDark = isSystemInDarkTheme()
+    val backgroundColor = if (isDark) Color(0xFF121212) else Color.White
+
     val primaryColor = if (isDark) Color(0xFFFFB2C9) else Color(0xFFF06292)
     val primaryContainerColor = if (isDark) Color(0xFF702B3E) else Color(0xFFFCE4EC)
     val onPrimaryContainerColor = if (isDark) Color(0xFFFFD9E2) else Color(0xFF880E4F)
@@ -24,7 +26,7 @@ fun StatisticsScreen(uiState: StatisticsUiState) {
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding(),
-        color = MaterialTheme.colorScheme.background
+        color = backgroundColor
     ) {
         Column(
             modifier = Modifier

@@ -5,8 +5,12 @@ import kotlinx.coroutines.flow.Flow
 
 class TaskRepository(private val taskDao: TaskDao) {
 
+    // Fluxos para ordenar as tarefas
     val allTasks: Flow<List<Task>> = taskDao.getAllTasks()
+    val allTasksByTitle: Flow<List<Task>> = taskDao.getAllTasksByTitle()
+    val allTasksByDueDate: Flow<List<Task>> = taskDao.getAllTasksByDueDate()
 
+    // Fluxos para a tela do dashboard
     val totalTasks: Flow<Int> = taskDao.getTotalTasksCount()
     val completedTasks: Flow<Int> = taskDao.getCompletedTasksCount()
     val pendingTasks: Flow<Int> = taskDao.getPendingTasksCount()

@@ -12,4 +12,15 @@
     <string name="btn_select_date">Data limite</string>
     <string name="date_picker_title">Selecione a data limite para realização da tarefa</string>
     <string name="task_due_date">Data limite: %1$s</string>
+
+    <!-- Opções do Diálogo de Ordenação -->
+    <string name="sort_dialog_title">Ordenar Por</string>
+    <string name="sort_option_default">Mais recentes</string>
+    <string name="sort_option_title">Título (A-Z)</string>
+    <string name="sort_option_due_date">Data de vencimento</string>
+
+    <!-- Rótulos do Botão de Filtro na Tela Principal -->
+    <string name="sort_btn_default">Ordenar por: Mais recentes</string>
+    <string name="sort_btn_title">Ordenar por: Título (A-Z)</string>
+    <string name="sort_btn_due_date">Ordenar por: Data de vencimento</string>
 </resources>

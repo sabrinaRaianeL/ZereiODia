@@ -14,6 +14,8 @@ import com.example.zereiodia.R
 import com.example.zereiodia.adapter.TaskAdapter
 import com.example.zereiodia.data.AppDatabase
 import com.example.zereiodia.data.TaskRepository
+import com.example.zereiodia.data.UserPreferencesRepository
+import com.example.zereiodia.data.dataStore
 import com.example.zereiodia.databinding.ActivityMainBinding
 import com.example.zereiodia.model.Task
 import com.example.zereiodia.viewmodel.TodoViewModel
@@ -35,7 +37,8 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: TodoViewModel by viewModels {
         val database = AppDatabase.getDatabase(applicationContext)
         val repository = TaskRepository(database.taskDao())
-        TodoViewModelFactory(repository)
+        val preferencesRepository = UserPreferencesRepository(applicationContext.dataStore)
+        TodoViewModelFactory(repository, preferencesRepository)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,13 +92,30 @@ class MainActivity : AppCompatActivity() {
         binding.btnOpenStatistics.setOnClickListener {
             openStatisticsFragment()
         }
+
+        // Ação de clique do botão de ordenação/filtro
+        binding.btnSort.setOnClickListener {
+            showSortDialog()
+        }
     }
 
     private fun observeViewModel() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.tasks.collect { tasks ->
-                    adapter.submitList(tasks)
+                launch {
+                    viewModel.tasks.collect { tasks ->
+                        adapter.submitList(tasks)
+                    }
+                }
+
+                launch {
+                    viewModel.sortOrder.collect { order ->
+                        binding.btnSort.text = when (order) {
+                            "TITLE" -> getString(R.string.sort_btn_title)
+                            "DUE_DATE" -> getString(R.string.sort_btn_due_date)
+                            else -> getString(R.string.sort_btn_default)
+                        }
+                    }
                 }
             }
         }
@@ -151,5 +171,26 @@ class MainActivity : AppCompatActivity() {
             .replace(android.R.id.content, StatisticsFragment())
             .addToBackStack(null) // permite que o botão "Voltar" retorne para a lista de tarefas
             .commit()
+    }
+
+    private fun showSortDialog() {
+        val options = arrayOf(
+            getString(R.string.sort_option_default),
+            getString(R.string.sort_option_title),
+            getString(R.string.sort_option_due_date)
+        )
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.sort_dialog_title)
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> viewModel.updateSortOrder("DEFAULT")
+                    1 -> viewModel.updateSortOrder("TITLE")
+                    2 -> viewModel.updateSortOrder("DUE_DATE")
+                }
+            }
+
+            .setNegativeButton(R.string.dialog_cancel, null)
+            .show()
     }
 }

@@ -12,8 +12,15 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TaskDao {
 
+    // Queries para ordenação da lista de tarefas
     @Query("SELECT * FROM tasks ORDER BY id DESC")
     fun getAllTasks(): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks ORDER BY title ASC")
+    fun getAllTasksByTitle(): Flow<List<Task>>
+
+    @Query("SELECT * FROM tasks ORDER BY dueDate ASC")
+    fun getAllTasksByDueDate(): Flow<List<Task>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: Task)

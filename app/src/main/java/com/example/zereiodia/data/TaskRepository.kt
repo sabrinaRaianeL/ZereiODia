@@ -23,6 +23,11 @@ class TaskRepository(private val taskDao: TaskDao) {
         return taskDao.getPendingTasksCount(date)
     }
 
+    // Função para o streak
+    fun getDistinctCompletionDates(): Flow<List<String>> {
+        return taskDao.getDistinctCompletionDates()
+    }
+
     suspend fun insert(task: Task) {
         taskDao.insertTask(task)
     }

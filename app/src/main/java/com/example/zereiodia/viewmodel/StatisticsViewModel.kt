@@ -7,20 +7,25 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 data class StatisticsUiState(
     val totalTasks: Int = 0,
     val completedTasks: Int = 0,
     val pendingTasks: Int = 0,
-    val completionPercentage: Float = 0f
+    val completionPercentage: Float = 0f,
+    val currentDate: String = ""
 )
 
 class StatisticsViewModel (private val repository: TaskRepository) : ViewModel() {
 
+    private val todayFormatted = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
     val uiState: StateFlow<StatisticsUiState> = combine (
-        repository.totalTasks,
-        repository.completedTasks,
-        repository.pendingTasks
+        repository.getTotalTasksCount(todayFormatted),
+        repository.getCompletedTasksCount(todayFormatted),
+        repository.getPendingTasksCount(todayFormatted)
     ) { total, completed, pending ->
         val percentage = if (total > 0) {
             completed.toFloat() / total.toFloat() * 100
@@ -32,12 +37,13 @@ class StatisticsViewModel (private val repository: TaskRepository) : ViewModel()
             totalTasks = total,
             completedTasks = completed,
             pendingTasks = pending,
-            completionPercentage = percentage
+            completionPercentage = percentage,
+            currentDate = todayFormatted
         )
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = StatisticsUiState()
+        initialValue = StatisticsUiState(currentDate = todayFormatted)
     )
 
 }

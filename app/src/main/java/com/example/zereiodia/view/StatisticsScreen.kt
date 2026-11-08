@@ -97,6 +97,43 @@ fun StatisticsScreen(uiState: StatisticsUiState) {
                     modifier = Modifier.weight(1f)
                 )
             }
+
+            // Card para exibir o Streak
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = primaryContainerColor
+                )
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column {
+                        Text(
+                            text = "Ofensiva Atual (Streak)",
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = onPrimaryContainerColor
+                        )
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = "Dias consecutivos concluindo tarefas",
+                            fontSize = 12.sp,
+                            color = onPrimaryContainerColor.copy(alpha = 0.8f)
+                        )
+                    }
+                    Text(
+                        text = "🔥 ${uiState.currentStreak} dias",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = onPrimaryContainerColor
+                    )
+                }
+            }
         }
     }
 }

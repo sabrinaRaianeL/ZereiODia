@@ -41,4 +41,9 @@ interface TaskDao {
 
     @Query("SELECT COUNT(*) FROM tasks WHERE isDone = 0 AND dueDate = :date")
     fun getPendingTasksCount(date: String): Flow<Int>
+
+    // Querie para o streak
+
+    @Query("SELECT DISTINCT completedDate FROM tasks WHERE isDone = 1 AND completedDate IS NOT NULL ORDER BY completedDate DESC")
+    fun getDistinctCompletionDates(): Flow<List<String>>
 }

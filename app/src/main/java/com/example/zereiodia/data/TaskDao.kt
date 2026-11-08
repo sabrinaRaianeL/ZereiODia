@@ -31,14 +31,14 @@ interface TaskDao {
     @Delete
     suspend fun deleteTask(task: Task)
 
-    // Queries para a tela do dashboard
+    // Queries para a tela do dashboard (agora refletem apenas a data atual)
 
-    @Query("SELECT COUNT(*) FROM tasks")
-    fun getTotalTasksCount(): Flow<Int>
+    @Query("SELECT COUNT(*) FROM tasks WHERE dueDate = :date")
+    fun getTotalTasksCount(date: String): Flow<Int>
 
-    @Query("SELECT COUNT(*) FROM tasks WHERE isDone = 1")
-    fun getCompletedTasksCount(): Flow<Int>
+    @Query("SELECT COUNT(*) FROM tasks WHERE isDone = 1 AND dueDate = :date")
+    fun getCompletedTasksCount(date: String): Flow<Int>
 
-    @Query("SELECT COUNT(*) FROM tasks WHERE isDone = 0")
-    fun getPendingTasksCount(): Flow<Int>
+    @Query("SELECT COUNT(*) FROM tasks WHERE isDone = 0 AND dueDate = :date")
+    fun getPendingTasksCount(date: String): Flow<Int>
 }

@@ -10,10 +10,18 @@ class TaskRepository(private val taskDao: TaskDao) {
     val allTasksByTitle: Flow<List<Task>> = taskDao.getAllTasksByTitle()
     val allTasksByDueDate: Flow<List<Task>> = taskDao.getAllTasksByDueDate()
 
-    // Fluxos para a tela do dashboard
-    val totalTasks: Flow<Int> = taskDao.getTotalTasksCount()
-    val completedTasks: Flow<Int> = taskDao.getCompletedTasksCount()
-    val pendingTasks: Flow<Int> = taskDao.getPendingTasksCount()
+    // Funções para a tela do dashboard (agora exigem a data para filtrar o dia atual)
+    fun getTotalTasksCount(date: String): Flow<Int> {
+        return taskDao.getTotalTasksCount(date)
+    }
+
+    fun getCompletedTasksCount(date: String): Flow<Int> {
+        return taskDao.getCompletedTasksCount(date)
+    }
+
+    fun getPendingTasksCount(date: String): Flow<Int> {
+        return taskDao.getPendingTasksCount(date)
+    }
 
     suspend fun insert(task: Task) {
         taskDao.insertTask(task)

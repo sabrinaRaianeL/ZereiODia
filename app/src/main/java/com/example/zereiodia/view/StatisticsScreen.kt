@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.zereiodia.viewmodel.StatisticsUiState
@@ -41,7 +42,7 @@ fun StatisticsScreen(uiState: StatisticsUiState) {
                 color = primaryColor
             )
 
-            // Card para exibir Taxa de Conclusão
+            // Card para exibir Taxa de Conclusão Diária com a data atual
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -52,9 +53,12 @@ fun StatisticsScreen(uiState: StatisticsUiState) {
                     modifier = Modifier.padding(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "Taxa de Conclusão",
-                        fontSize = 16.sp,
-                        color = onPrimaryContainerColor
+                    Text(
+                        text = "Taxa de Conclusão Diária: ${uiState.currentDate}",
+                        fontSize = 14.sp,
+                        color = onPrimaryContainerColor,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.Center
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
@@ -66,13 +70,13 @@ fun StatisticsScreen(uiState: StatisticsUiState) {
                 }
             }
 
-            // Cards de contagem de tasks (Total, Concluídas, Pendentes)
+            // Cards de contagem de tasks do dia (Total, Concluídas, Pendentes)
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 StatCard(
-                    title = "Total",
+                    title = "Total Hoje",
                     value = uiState.totalTasks.toString(),
                     containerColor = primaryContainerColor,
                     contentColor = onPrimaryContainerColor,
@@ -105,7 +109,6 @@ fun StatCard(
     contentColor: Color,
     modifier: Modifier = Modifier
 ) {
-
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
@@ -119,7 +122,7 @@ fun StatCard(
                 .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = title, fontSize = 14.sp)
+            Text(text = title, fontSize = 13.sp)
             Spacer(modifier = Modifier.height(4.dp))
             Text(
                 text = value,

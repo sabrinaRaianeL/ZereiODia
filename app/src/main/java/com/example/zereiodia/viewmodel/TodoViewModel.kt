@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class TodoViewModel (private val repository: TaskRepository, private val preferencesRepository: UserPreferencesRepository) : ViewModel() {
 
@@ -49,7 +52,12 @@ class TodoViewModel (private val repository: TaskRepository, private val prefere
 
     fun toggleTask(task: Task) {
         viewModelScope.launch {
-            val updatedTask = task.copy(isDone = !task.isDone)
+            val todayFormatted = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+
+            val updatedTask = task.copy(
+                isDone = !task.isDone,
+                completedDate = if (!task.isDone) todayFormatted else null
+            )
             repository.update(updatedTask)
         }
     }
